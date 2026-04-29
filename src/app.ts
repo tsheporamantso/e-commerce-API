@@ -2,8 +2,19 @@ import "dotenv/config";
 import express from "express";
 import { connectDB } from "./db/connectDB";
 import { getEnvVariable } from "./utils/env";
+import { NotFound } from "./middleware/not-found";
+import morgan from "morgan";
 
 const app = express();
+
+// body parser
+app.use(express.json());
+
+// logger
+app.use(morgan("tiny"));
+
+// middleware
+app.use(NotFound);
 
 const port = process.env.PORT || 5000;
 
