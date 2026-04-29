@@ -1,11 +1,11 @@
 import "dotenv/config";
+import morgan from "morgan";
 import express from "express";
 import { connectDB } from "./db/connectDB";
 import { getEnvVariable } from "./utils/env";
 import { NotFound } from "./middleware/not-found";
 import { errorHandlerMiddleware } from "./middleware/error-handler";
-import morgan from "morgan";
-import { StatusCodes } from "http-status-codes";
+import authRouter from "./routes/authRoute";
 
 const app = express();
 
@@ -16,9 +16,7 @@ app.use(express.json());
 app.use(morgan("tiny"));
 
 // routes
-app.use("/api/v1/home", (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "Welcome" });
-});
+app.use("/api/v1/auth", authRouter);
 
 // middleware
 app.use(NotFound);
