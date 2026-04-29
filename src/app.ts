@@ -2,10 +2,29 @@ import "dotenv/config";
 import express from "express";
 import { connectDB } from "./db/connectDB";
 import { getEnvVariable } from "./utils/env";
+import { NotFound } from "./middleware/not-found";
+import { errorHandlerMiddleware } from "./middleware/error-handler";
+import morgan from "morgan";
+import { StatusCodes } from "http-status-codes";
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+// body parser
+app.use(express.json());
+
+// logger
+app.use(morgan("tiny"));
+
+// routes
+app.use("/api/v1/home", (req, res) => {
+  res.status(StatusCodes.OK).json({ msg: "Welcome" });
+});
+
+// middleware
+app.use(NotFound);
+app.use(errorHandlerMiddleware);
+
+const port = process.env.PORT || 3000;
 
 const start = async () => {
   try {
