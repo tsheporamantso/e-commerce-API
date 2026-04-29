@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-import { CustomErrorAPI } from "../errors/custom-error";
+import CustomError from "../errors";
 
 export const errorHandlerMiddleware: ErrorRequestHandler = (
   err,
@@ -8,7 +8,7 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (
   res,
   next,
 ) => {
-  if (err instanceof CustomErrorAPI) {
+  if (err instanceof CustomError.CustomErrorAPI) {
     return res.status(err.statusCode).json({ msg: err.message });
   }
   return res
