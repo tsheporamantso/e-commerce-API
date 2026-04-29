@@ -6,7 +6,7 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (
   err,
   req,
   res,
-  next,
+  _next,
 ) => {
   if (err instanceof CustomError.CustomErrorAPI) {
     return res.status(err.statusCode).json({ msg: err.message });
