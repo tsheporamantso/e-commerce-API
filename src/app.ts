@@ -7,9 +7,12 @@ import { NotFound } from "./middleware/not-found";
 import { errorHandlerMiddleware } from "./middleware/error-handler";
 import authRouter from "./routes/authRoute";
 import cookieParser from "cookie-parser";
+import { limiter } from "./middleware/rate-limiter";
 
 const app = express();
 
+// express-rate-limit
+app.use(limiter);
 // body parser
 app.use(express.json());
 
