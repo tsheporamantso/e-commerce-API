@@ -1,4 +1,6 @@
 import express from "express";
+import { authenticateUser } from "../middleware/authentication";
+import { authorizePermission } from "../middleware/authorize-permission";
 
 const router = express.Router();
 
@@ -10,12 +12,14 @@ import {
   updateUserPassword,
 } from "../controllers/usersController";
 
-router.route("/").get(getAllUsers);
+router
+  .route("/")
+  .get(authenticateUser, authorizePermission("admin"), getAllUsers);
 
-router.route("/showMe").get(showCurrentUser);
-router.route("/updateUser").patch(updateUser);
-router.route("/updateUserPassword").patch(updateUserPassword);
+router.route("/showMe").get(authenticateUser, showCurrentUser);
+router.route("/updateUser").patch(authenticateUser, updateUser);
+router.route("/updateUserPassword").patch(authenticateUser, updateUserPassword);
 
-router.route("/:id").get(getSingleUser);
+router.route("/:id").get(authenticateUser, getSingleUser);
 
 export default router;
