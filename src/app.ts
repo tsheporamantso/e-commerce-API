@@ -6,6 +6,7 @@ import { getEnvVariable } from "./utils/env";
 import { NotFound } from "./middleware/not-found";
 import { errorHandlerMiddleware } from "./middleware/error-handler";
 import authRouter from "./routes/authRoute";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -14,6 +15,9 @@ app.use(express.json());
 
 // logger
 app.use(morgan("tiny"));
+
+// cookieParser
+app.use(cookieParser(process.env.JWT_SECRET));
 
 // routes
 app.use("/api/v1/auth", authRouter);
