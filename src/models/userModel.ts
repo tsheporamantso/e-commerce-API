@@ -57,7 +57,7 @@ const options: SignOptions = {
 
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
-    { name: this.name, email: this.email, role: this.role },
+    { userId: this._id, name: this.name, role: this.role },
     getEnvVariable("JWT_SECRET"),
     options,
   );
