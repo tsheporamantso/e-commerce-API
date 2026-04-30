@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 
 export interface IUser extends Document {
   name: string;
@@ -28,7 +29,6 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: [true, "Please provide password"],
-      minLength: 10,
     },
     role: {
       type: String,
@@ -41,5 +41,10 @@ const UserSchema = new Schema(
   },
   { timestamps: true },
 );
+
+UserSchema.pre("save", async function () {
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
 export default mongoose.model<IUser>("User", UserSchema);
