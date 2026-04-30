@@ -8,16 +8,33 @@ import { errorHandlerMiddleware } from "./middleware/error-handler";
 import authRouter from "./routes/authRoute";
 import cookieParser from "cookie-parser";
 import { limiter } from "./middleware/rate-limiter";
+import helmet from "helmet";
+import cors from "cors";
 
 const app = express();
 
-// express-rate-limit
-app.use(limiter);
+const allowedOrigins = "http://localhost:3000";
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error(`CORS policy: origin ${origin} not allowed`));
+    },
+    credentials: true,
+  }),
+);
+
 // body parser
 app.use(express.json());
 
 // logger
 app.use(morgan("tiny"));
+
+// express-rate-limit and helmet
+app.use(limiter);
+app.use(helmet());
 
 // cookieParser
 app.use(cookieParser(process.env.JWT_SECRET));
