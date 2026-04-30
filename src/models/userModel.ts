@@ -10,6 +10,7 @@ export interface IUser extends Document {
   password: string;
   role: string;
   createJWT: () => string;
+  comparePassword: (candidatePassword: string) => Promise<boolean>;
 }
 
 const UserSchema = new Schema(
@@ -60,6 +61,13 @@ UserSchema.methods.createJWT = function () {
     getEnvVariable("JWT_SECRET"),
     options,
   );
+};
+
+UserSchema.methods.comparePassword = async function (
+  candidatePassword: string,
+) {
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  return isMatch;
 };
 
 export default mongoose.model<IUser>("User", UserSchema);
