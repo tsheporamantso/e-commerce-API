@@ -10,6 +10,7 @@ import {
   showCurrentUser,
   updateUser,
   updateUserPassword,
+  deleteUser,
 } from "../controllers/usersController";
 
 router
@@ -21,5 +22,8 @@ router.route("/updateUser").patch(authenticateUser, updateUser);
 router.route("/updateUserPassword").patch(authenticateUser, updateUserPassword);
 
 router.route("/:id").get(authenticateUser, getSingleUser);
+router
+  .route("/:id")
+  .delete(authenticateUser, authorizePermission("admin"), deleteUser);
 
 export default router;

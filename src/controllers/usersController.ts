@@ -83,3 +83,13 @@ export const updateUserPassword = asyncWrapper(async (req, res) => {
 
   res.status(StatusCodes.OK).json({ msg: "Password updated" });
 });
+
+export const deleteUser = asyncWrapper(async (req, res) => {
+  const { id: userId } = req.params;
+  const user = await User.findOneAndDelete({ _id: userId });
+
+  if (!user) {
+    throw new CustomError.NotFoundError("User not found");
+  }
+  res.status(StatusCodes.OK).json({ msg: "User successfully deleted" });
+});
