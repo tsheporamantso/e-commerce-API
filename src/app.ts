@@ -6,6 +6,7 @@ import { getEnvVariable } from "./utils/env";
 import { NotFound } from "./middleware/not-found";
 import { errorHandlerMiddleware } from "./middleware/error-handler";
 import authRouter from "./routes/authRoute";
+import userRouter from "./routes/userRoutes";
 import cookieParser from "cookie-parser";
 import { limiter } from "./middleware/rate-limiter";
 import helmet from "helmet";
@@ -41,6 +42,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 // routes
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
 
 // middleware
 app.use(NotFound);
