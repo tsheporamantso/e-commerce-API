@@ -51,9 +51,6 @@ export const login = asyncWrapper(async (req, res) => {
 });
 
 export const logout = asyncWrapper(async (req, res) => {
-  res.cookie("token", "token", {
-    httpOnly: true,
-    expires: new Date(Date.now()),
-  });
-  res.status(StatusCodes.OK).json({ msg: "user logged out successfully." });
+  res.clearCookie("token", { httpOnly: true });
+  res.status(StatusCodes.OK).json({ msg: "User logged out successfully." });
 });
