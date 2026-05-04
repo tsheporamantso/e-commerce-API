@@ -1,16 +1,18 @@
 import "dotenv/config";
+import cors from "cors";
+import helmet from "helmet";
 import morgan from "morgan";
 import express from "express";
 import { connectDB } from "./db/connectDB";
 import { getEnvVariable } from "./utils/env";
-import { NotFound } from "./middleware/not-found";
-import { errorHandlerMiddleware } from "./middleware/error-handler";
 import authRouter from "./routes/authRoute";
 import userRouter from "./routes/userRoutes";
+import productsRouter from "./routes/productRoutes";
 import cookieParser from "cookie-parser";
 import { limiter } from "./middleware/rate-limiter";
-import helmet from "helmet";
-import cors from "cors";
+import { NotFound } from "./middleware/not-found";
+import fileUpload from "express-fileupload";
+import { errorHandlerMiddleware } from "./middleware/error-handler";
 
 const app = express();
 
@@ -40,9 +42,15 @@ app.use(helmet());
 // cookieParser
 app.use(cookieParser(process.env.JWT_SECRET));
 
+// static folder
+app.use(express.static("./public"));
+
+app.use(fileUpload());
+
 // routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productsRouter);
 
 // middleware
 app.use(NotFound);
