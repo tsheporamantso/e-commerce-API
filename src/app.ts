@@ -11,7 +11,7 @@ import productsRouter from "./routes/productRoutes";
 import cookieParser from "cookie-parser";
 import { limiter } from "./middleware/rate-limiter";
 import { NotFound } from "./middleware/not-found";
-
+import fileUpload from "express-fileupload";
 import { errorHandlerMiddleware } from "./middleware/error-handler";
 
 const app = express();
@@ -41,6 +41,11 @@ app.use(helmet());
 
 // cookieParser
 app.use(cookieParser(process.env.JWT_SECRET));
+
+// static folder
+app.use(express.static("./public"));
+
+app.use(fileUpload());
 
 // routes
 app.use("/api/v1/auth", authRouter);
