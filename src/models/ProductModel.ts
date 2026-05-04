@@ -24,11 +24,11 @@ const ProductSchema = new Schema(
     },
     image: {
       type: String,
-      default: "uploads/example.jpeg",
+      default: "/uploads/example.jpeg",
     },
     category: {
       type: String,
-      required: [true, "Please provide product description"],
+      required: [true, "Please provide product category"],
       enum: {
         values: ["office", "kitchen", "bedroom"],
         message: "{VALUE} is no supported",
@@ -71,7 +71,7 @@ const ProductSchema = new Schema(
     user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: [true, "Please provide user"],
     },
   },
   { timestamps: true },
