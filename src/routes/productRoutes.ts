@@ -16,14 +16,14 @@ import {
 router
   .route("/")
   .get(getAllProducts)
-  .post(authenticateUser, authorizePermission("admin"), createProduct);
+  .post([authenticateUser, authorizePermission("admin")], createProduct);
 router
-  .route("/upload")
-  .post(authenticateUser, authorizePermission("admin"), uploadImage);
+  .route("/uploadImage")
+  .post([authenticateUser, authorizePermission("admin")], uploadImage);
 router
   .route("/:id")
   .get(getSingleProduct)
-  .patch(authenticateUser, authorizePermission("admin"), updateProduct)
-  .delete(authenticateUser, authorizePermission("admin"), deleteProduct);
+  .patch([authenticateUser, authorizePermission("admin")], updateProduct)
+  .delete([authenticateUser, authorizePermission("admin")], deleteProduct);
 
 export default router;
