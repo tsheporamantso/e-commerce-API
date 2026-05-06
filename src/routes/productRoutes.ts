@@ -13,6 +13,8 @@ import {
   uploadImage,
 } from "../controllers/productController";
 
+import { getSingleProductReviews } from "../controllers/ReviewsController";
+
 router
   .route("/")
   .get(getAllProducts)
@@ -25,5 +27,7 @@ router
   .get(getSingleProduct)
   .patch([authenticateUser, authorizePermission("admin")], updateProduct)
   .delete([authenticateUser, authorizePermission("admin")], deleteProduct);
+
+router.route("/:id/reviews").get(getSingleProductReviews);
 
 export default router;
