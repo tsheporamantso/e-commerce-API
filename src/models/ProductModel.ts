@@ -89,4 +89,12 @@ ProductSchema.virtual("reviews", {
   // match: { rating: 5 },
 });
 
+ProductSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  async function (this: IProduct & Document) {
+    await mongoose.model("Review").deleteMany({ product: this._id });
+  },
+);
+
 export default mongoose.model<IProduct>("Product", ProductSchema);
