@@ -4,7 +4,7 @@ export interface IReview extends Document {
   rating: number;
   title: string;
   comment: string;
-  user: string;
+  user: Types.ObjectId;
   product: Types.ObjectId;
 }
 
