@@ -8,6 +8,7 @@ import { getEnvVariable } from "./utils/env";
 import authRouter from "./routes/authRoute";
 import userRouter from "./routes/userRoutes";
 import productsRouter from "./routes/productRoutes";
+import reviewsRouter from "./routes/reviewRoute";
 import cookieParser from "cookie-parser";
 import { limiter } from "./middleware/rate-limiter";
 import { NotFound } from "./middleware/not-found";
@@ -51,6 +52,7 @@ app.use(fileUpload());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/reviews", reviewsRouter);
 
 // middleware
 app.use(NotFound);
